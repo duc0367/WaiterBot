@@ -1,0 +1,6 @@
+.env
+data
+menu_db
+payment_db
+.idea
+__pycache__
