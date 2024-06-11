@@ -3,8 +3,10 @@ from langchain_community.vectorstores import FAISS
 from langchain.tools.retriever import create_retriever_tool
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.agent_toolkits.load_tools import load_tools
+import functools
 import dotenv
-from utils import create_agent_executor
+
+from utils import create_agent_executor, agent_node
 
 dotenv.load_dotenv()
 
@@ -30,5 +32,7 @@ for tool in llm_math:
 waiter_executor = create_agent_executor(llm, tools, 'You are a waiter in the restaurant.'
                                                     ' you can help make an order and calculate the price')
 
-# out = waiter_executor.invoke({'messages': [HumanMessage(content='What is 4 times 3? Please use your available tool')]})
+waiter_node = functools.partial(agent_node, agent=waiter_executor, name="Waiter")
+
+# out = waiter_executor.invoke({'messages': [HumanMessage(content='What is 4 times 3?')]})
 # print(out)

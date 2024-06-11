@@ -2,8 +2,10 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_community.vectorstores import FAISS
 from langchain.tools.retriever import create_retriever_tool
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
+import functools
 import dotenv
-from utils import create_agent_executor
+
+from utils import create_agent_executor, agent_node
 
 dotenv.load_dotenv()
 
@@ -22,6 +24,8 @@ payment_search_tool = create_retriever_tool(
 tools = [payment_search_tool]
 
 manager_executor = create_agent_executor(llm, tools, 'You are a manager who can give the information about payment')
+
+manager_node = functools.partial(agent_node, agent=manager_executor, name="Manager")
 
 # out = manager_executor.invoke({'messages': [HumanMessage(content='What is the restaurant bank account?')]})
 # print(out)

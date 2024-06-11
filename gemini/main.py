@@ -3,8 +3,8 @@ import operator
 from langgraph.graph import END, StateGraph
 from langchain_core.messages import HumanMessage, BaseMessage
 
-from waiter import waiter_executor
-from manager import manager_executor
+from waiter import waiter_node
+from manager import manager_node
 from supervisor import supervisor_chain, members
 
 
@@ -15,8 +15,8 @@ class RestaurantAgentState:
 
 workflow = StateGraph(RestaurantAgentState)
 
-workflow.add_node('Waiter', waiter_executor)
-workflow.add_node('Manager', manager_executor)
+workflow.add_node('Waiter', waiter_node)
+workflow.add_node('Manager', manager_node)
 workflow.add_node('Supervisor', supervisor_chain)
 
 for member in members:
